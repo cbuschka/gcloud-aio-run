@@ -1,6 +1,6 @@
 import unittest
 
-from gcloud.aio.run import RunService
+from run import RunService
 
 
 class RunServiceTest(unittest.TestCase):
