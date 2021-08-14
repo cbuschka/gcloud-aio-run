@@ -6,7 +6,7 @@ import setuptools
 
 
 def get_readme(version):
-  with open("readme.md", "r", encoding='utf-8') as fh:
+  with open("readme.md", "r", encoding='utf-8') as f:
     return re.sub(r"]\(\./",
                   f"](https://github.com/cbuschka/gcloud-aio-run/blob/{version}/",
                   f.read())
