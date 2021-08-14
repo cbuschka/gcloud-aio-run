@@ -4,7 +4,7 @@ SHELL := /bin/bash
 tests:	init
 	@cd ${TOP_DIR} && \
 	source ${TOP_DIR}/.venv/bin/activate && \
-	pip install -r ./requirements.txt
+	PYTHONPATH=${TOP_DIR}:${TOP_DIR}/tests python3 -B -m unittest discover -s ${TOP_DIR}/tests/ -t ${TOP_DIR} -p '*_test.py'
 
 init:
 	@cd ${TOP_DIR} && \
@@ -13,4 +13,17 @@ init:
 		python3 -m virtualenv -p python3 ${TOP_DIR}/.venv/; \
 	fi && \
 	source ${TOP_DIR}/.venv/bin/activate && \
-	PYTHONPATH=${TOP_DIR}:${TOP_DIR}/tests python3 -B -m unittest discover -s ${TOP_DIR}/tests/ -t ${TOP_DIR} -p '*_test.py'
+	pip install -r ./requirements.txt -r requirements-dev.txt
+
+dist:   tests
+	source ${TOP_DIR}/.venv/bin/activate && \
+	python3 ${TOP_DIR}/setup.py sdist bdist_wheel
+
+clean:
+	cd ${TOP_DIR} && \
+	rm -rf dist/ *.egg-info/
+
+upload: clean dist
+	cd ${TOP_DIR} && \
+	source ${TOP_DIR}/.venv/bin/activate && \
+	twine upload dist/*
