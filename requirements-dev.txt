@@ -1,2 +1,3 @@
 setuptools >= 46.1.1
 twine >= 3.1.1
+asyncmock

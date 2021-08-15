@@ -1,6 +1,15 @@
 from unittest import TestCase
-from unittest.mock import AsyncMock, Mock
+
 import asyncio
+import sys
+
+if sys.version_info[0] < 3:
+  raise Exception("Must be using Python 3")
+if sys.version_info[1] < 8:
+  from unittest.mock import Mock
+  from asyncmock import AsyncMock
+else:
+  from unittest.mock import AsyncMock, Mock
 
 from gcloud.aio.run import RunClient
 
@@ -40,14 +49,14 @@ class RunClientTest(TestCase):
                      [("service0", "url-service0"),
                       ("service1", "url-service1"), ])
 
-  @async_test
-  async def test_empty_items(self):
-    self._given_response({'kind': 'ServiceList'})
-    services = await self.client.list_services("project", "region")
-    self.assertEqual([], services)
+    @async_test
+    async def test_empty_items(self):
+      self._given_response({'kind': 'ServiceList'})
+      services = await self.client.list_services("project", "region")
+      self.assertEqual([], services)
 
-  @async_test
-  async def test_no_kind(self):
-    self._given_response({})
-    with self.assertRaises(ValueError) as ctx:
-      await self.client.list_services("project", "region")
+    @async_test
+    async def test_no_kind(self):
+      self._given_response({})
+      with self.assertRaises(ValueError) as ctx:
+        await self.client.list_services("project", "region")
