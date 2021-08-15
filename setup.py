@@ -54,7 +54,7 @@ setuptools.setup(
     platforms='Posix; MacOS X; Windows',
     include_package_data=True,
     zip_safe=False,
-    license='MIT License',
+    license='Apache Software License',
     classifiers=[
       'Development Status :: 5 - Production/Stable',
       'Intended Audience :: Developers',
