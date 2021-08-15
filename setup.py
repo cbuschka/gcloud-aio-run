@@ -13,9 +13,10 @@ def get_readme(version):
 
 
 def get_version():
-  proc = subprocess.Popen(['git', 'describe', '--exact-match', '--tags'],
-                          stdout=subprocess.PIPE,
-                          stderr=subprocess.STDOUT)
+  proc = subprocess.Popen(
+      ['git', 'describe', '--tags', '--no-match', '--always', '--dirty=-dirty'],
+      stdout=subprocess.PIPE,
+      stderr=subprocess.STDOUT)
   stdout, stderr = proc.communicate()
   result = re.search('^v([^\n]+)\n$', stdout.decode("utf-8"), re.S)
   if not result:
