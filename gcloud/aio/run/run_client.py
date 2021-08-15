@@ -45,6 +45,9 @@ class RunClient:
     my_session = AioSession(session) if session else self.session
     resp = await my_session.get(url, headers=headers, timeout=timeout)
     result: Dict[str, Any] = await resp.json()
+    if result.get("kind", None) != 'ServiceList':
+      raise ValueError(
+        "The response contains no attribute kind: \"ServiceList\".")
     return [RunService(raw) for raw in result.get("items", [])]
 
   async def close(self) -> None:
