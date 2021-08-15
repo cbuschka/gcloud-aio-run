@@ -14,7 +14,7 @@ install:
 init:
 	@cd ${TOP_DIR} && \
 	if [ ! -d "${TOP_DIR}/.venv/" ]; then \
-		pip3 install virtualenv; \
+		pip3 install virtualenv --upgrade pip; \
 		python3 -m virtualenv -p python3 ${TOP_DIR}/.venv/; \
 	fi && \
 	source ${TOP_DIR}/.venv/bin/activate && \

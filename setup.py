@@ -14,10 +14,14 @@ def get_readme(version):
 
 def get_version():
   proc = subprocess.Popen(
-      ['git', 'describe', '--tags', '--no-match', '--always', '--dirty=-dirty'],
+      ["/bin/bash", "-c",
+       "git describe --exact-match --tags 2>/dev/null || echo 'v0.0.0.alpha.0'"],
+      shell=False,
       stdout=subprocess.PIPE,
       stderr=subprocess.STDOUT)
   stdout, stderr = proc.communicate()
+  print(stdout)
+  print(stderr)
   result = re.search('^v([^\n]+)\n$', stdout.decode("utf-8"), re.S)
   if not result:
     raise ValueError("Invalid version: '{}'.".format(result))
