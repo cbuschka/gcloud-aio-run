@@ -45,7 +45,7 @@ class RunClient:
     my_session = AioSession(session) if session else self.session
     resp = await my_session.get(url, headers=headers, timeout=timeout)
     result: Dict[str, Any] = await resp.json()
-    return [RunService(raw) for raw in result["items"]]
+    return [RunService(raw) for raw in result.get("items", [])]
 
   async def close(self) -> None:
     await self.session.close()
