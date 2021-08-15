@@ -1,10 +1,15 @@
 TOP_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SHELL := /bin/bash
 
-tests:	init
+tests:	init install
 	@cd ${TOP_DIR} && \
 	source ${TOP_DIR}/.venv/bin/activate && \
-	PYTHONPATH=${TOP_DIR}/gcloud/aio:${TOP_DIR}/tests python3 -B -m unittest discover -s ${TOP_DIR}/tests/ -p '*_test.py'
+	PYTHONPATH=${TOP_DIR}:${TOP_DIR}/tests python3 -B -m unittest discover -s ${TOP_DIR}/tests/ -p '*_test.py'
+
+install:
+	@cd ${TOP_DIR} && \
+	source ${TOP_DIR}/.venv/bin/activate && \
+	pip3 install -e .
 
 init:
 	@cd ${TOP_DIR} && \
